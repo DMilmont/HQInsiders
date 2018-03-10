@@ -1,0 +1,6 @@
+autobahn
+beautifulsoup4
+nltk
+service_identity
+requests
+twisted
