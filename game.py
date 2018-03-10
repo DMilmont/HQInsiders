@@ -17,7 +17,7 @@ class GameProtocol(WebSocketClientProtocol):
     def onOpen(self):
         if debug:
             print("[Connection] Connection established!")
-        self.block_chat = False  # It will block chat when question are shown
+        self.block_chat = True  # It will block chat when question are shown
         self.chat = Chat()
         self.consume = Consumer()
 
@@ -41,12 +41,11 @@ class GameProtocol(WebSocketClientProtocol):
                 self.block_chat = True
                 #self.solver.solve(message)
             elif message["type"] == "questionClosed":
-                #self.block_chat = False
+                self.block_chat = True
             elif message["type"] == "questionSummary":
                 self.block_chat = True
-                #self.solver.solve(message)
             elif message["type"] == "questionFinished":
-                self.block_chat = False
+                self.block_chat = True
 
             if not self.block_chat:
                 if (message["type"] == "interaction" and message["itemId"] == "chat") or message["type"] == "kicked":
@@ -93,7 +92,7 @@ class GameProtocol(WebSocketClientProtocol):
 
                     print("".center(get_terminal_size()[0], "="))
             elif message["type"] == "postGame":
-                self.block_chat = False
+                self.block_chat = True
 
             if message["type"] == "broadcastEnded":
                 Data.allowReconnecting = False
